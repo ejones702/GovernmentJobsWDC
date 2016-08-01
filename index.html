@@ -17,7 +17,7 @@
     function buildURL(params) {
         var url = 'https://api.usa.gov/jobs/search.json?query=' + params;
         return url;
-        
+
     }
 
     var myConnector = tableau.makeConnector();
@@ -32,7 +32,8 @@
             { id : "maximum", alias : "Salary (Max)", dataType : tableau.dataTypeEnum.int },
             { id : "start_date", alias : "Start Date", dataType : tableau.dataTypeEnum.date },
             { id : "end_date", alias : "End Date", dataType : tableau.dataTypeEnum.date },
-            { id : "url", alias : "Job URL", dataType : tableau.dataTypeEnum.string }
+            { id : "url", alias : "Job URL", dataType : tableau.dataTypeEnum.string },
+            {id : "locations", alias : "locations", dataType : tableau.dataTypeEnum.string}
         ];
 
 var params = tableau.connectionData;
@@ -67,6 +68,7 @@ var params = tableau.connectionData;
                     "start_date": feat[i].start_date,
                     "end_date": feat[i].end_date,
                     "url": feat[i].url,
+                    "locations":feat[i].locations[0]
                 });
             }
 
@@ -75,7 +77,7 @@ var params = tableau.connectionData;
         });
 
     };
-    
+
     tableau.registerConnector(myConnector);
 
     $(document).ready(function () {
@@ -83,8 +85,8 @@ var params = tableau.connectionData;
         var params = document.getElementById("jobParams").value;
         var params = params.replace(",","+")
         if (params) {
-                    tableau.connectionData = params; 
-                    tableau.connectionName = "Government jobs search for " + params; 
+                    tableau.connectionData = params;
+                    tableau.connectionName = "Government jobs search for " + params;
                     tableau.submit();
                 };
         });
